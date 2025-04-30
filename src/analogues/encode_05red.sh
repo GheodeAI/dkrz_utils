@@ -5,9 +5,9 @@
 #SBATCH --exclusive
 #SBATCH --mem=0
 #SBATCH --time=12:00:00
-#SBATCH --mail-user=cosmin.marina@uah.es
+#SBATCH --mail-user={USER}
 #SBATCH --mail-type=END
-#SBATCH --account=bb1478
+#SBATCH --account={PROJ}
 #SBATCH --output=out_sh_enc_05red.log
 
 module load pytorch
@@ -16,7 +16,7 @@ export XLA_FLAGS=--xla_gpu_cuda_data_dir=/sw/spack-levante/nvhpc-24.7-py26uc/Lin
 export TF_FORCE_GPU_ALLOW_GROWTH=true
 module load texlive/live2021-gcc-11.2.0
 source activate
-conda activate minu_80
+conda activate ENV
 #python encode_search.py -m "encode" -f "config/identify_hw_france2003-mv-05-red.json" > out_enc_05red.log
 #python encode_search.py -m "encode" -f "config/train/train_france2003_era5.json" > out_enc_05red.log
 #python encode_search.py -m "search-ecmwf" -f "config/search/train_france2003_ecmwf.json" > out_enc_05red.log
