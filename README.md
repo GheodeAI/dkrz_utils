@@ -19,9 +19,11 @@ This is a collection of usefull scripts, there is no need for Instalation. Just:
 
 Clone the repo
 
-    git clone 
+    git clone https://github.com/GheodeAI/dkrz_utils.git
 
 And take the scripts that you need.
+
+**It is highly recomented to take a look at the [First steps](src/first-steps.md).**
 
 ## Contributing
 
