@@ -15,7 +15,8 @@ for notes on deploying the project on a live system.
 
 ### Installing
 
-This is a collection of usefull scripts, there is no need for Instalation. Just:
+This is a collection of usefull scripts, there is no need for Instalation. You need
+just to:
 
 Clone the repo
 
