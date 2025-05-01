@@ -4,12 +4,12 @@
 #SBATCH --nodes=4
 #SBATCH --mem=0
 #SBATCH --time=12:00:00
-#SBATCH --mail-user={MAIL}
+#SBATCH --mail-user=${MAIL}
 #SBATCH --mail-type=END
-#SBATCH --account={PROJ}
+#SBATCH --account=${PATHPROJ1}
 #SBATCH --output=out_sh.log
 
 module load python3
 source activate
-conda activate ENV
+conda activate ${ENV2}
 python merge_data.py -v "gz300/" -sn "ecmwf_01_gz300" -p "../../datasets/ecmwf/ens_01/" -o "data/ecmwf/ens_01/gz300/"

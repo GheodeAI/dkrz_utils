@@ -3,9 +3,9 @@
 #SBATCH --partition=interactive
 #SBATCH --nodes=1
 #SBATCH --time=12:00:00
-#SBATCH --mail-user={MAIL}
+#SBATCH --mail-user=${MAIL}
 #SBATCH --mail-type=END
-#SBATCH --account={PROJ}
+#SBATCH --account=${PATHPROJ1}
 #SBATCH --output=out_sh_remap.log
 
 module load cdo

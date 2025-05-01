@@ -2,7 +2,7 @@
 
 ## Issues
 
-[Issues](https://github.com/cosminmarina/dkrz_utils/issues)  are very valuable to this project.
+[Issues](https://github.com/GheodeAI/dkrz_utils/issues)  are very valuable to this project.
 
   - Ideas are a valuable source of contributions others can make
   - Problems show where this project is lacking
@@ -22,7 +22,7 @@ things:
 
 You should be clear which problem you're trying to solve with your
 contribution. It should always be linked to an
-[Issues](https://github.com/cosminmarina/dkrz_utils/issues) (opened
+[Issues](https://github.com/GheodeAI/dkrz_utils/issues) (opened
 by you or any other.
 
 For example:
@@ -46,8 +46,8 @@ the action you have taken to solve it.
 
 The aim of this repository is:
 
-  - To provide a README.md and assorted documents anyone can copy and
-    paste, into their project
+  - To provide a collection of usefull scripts anyone can copy and
+    paste, into their work on Levante.
   - The content is usable by someone who hasn't written something like
     this before
   - Foster a culture of respect and gratitude in the open source

@@ -9,12 +9,12 @@ show_help() {
     echo "  -h, --help      Show this help message and exit"
     echo
     echo "Arguments:"
-    echo "  clint           Change to /work/bk1318/b382610/ (default)"
-    echo "  medewsa         Change to /work/bb1478/b382610/"
-    echo "  carmine         Change to /work/bb1481/b382610/"
-    echo "  nuria           Change to /work/bk1318/b383264/"
+    echo "  ${NAMEPROJ1}           Change to /work/${PATHPROJ1}/${USER}/ (default)"
+    echo "  ${NAMEPROJ2}         Change to /work/${PATHPROJ2}/${USER}/"
+    echo "  ${NAMEPROJ3}         Change to /work/${PATHPROJ3}/${USER}/"
+    echo "  ${NAMEPROJ4}           Change to /work/${PATHPROJ4}/"
     echo
-    echo "If no argument is provided, 'clint' is used as the default."
+    echo "If no argument is provided, '${NAMEPROJ1}' is used as the default."
 }
 
 # Check for help option
@@ -27,19 +27,19 @@ else
     module load ncview
 
     # Set the default argument to "clint" if no argument is provided
-    arg1=${1:-"clint"}
+    arg1=${1:-"${NAMEPROJ1}"}
 
     # Change directory based on the argument
-    if [ "$arg1" == "clint" ]; then
-        cd /work/{PROJ1}/{USER}/
-    elif [ "$arg1" == "medewsa" ]; then
-        cd /work/{PROJ2}/{USER}/
-    elif [ "$arg1" == "carmine" ]; then
-        cd /work/{PROJ3}/{USER}/
-    elif [ "$arg1" == "nuria" ]; then
-        cd /work/{PROJ4}/{USER}/
+    if [ "$arg1" == "${NAMEPROJ1}" ]; then
+        cd "/work/${PATHPROJ1}/${USER}/"
+    elif [ "$arg1" == "${NAMEPROJ2}" ]; then
+        cd "/work/${PATHPROJ2}/${USER}/"
+    elif [ "$arg1" == "${NAMEPROJ3}" ]; then
+        cd "/work/${PATHPROJ3}/${USER}/"
+    elif [ "$arg1" == "${NAMEPROJ4}" ]; then
+        cd "/work/${PATHPROJ4}/"
     else
         echo "Invalid argument: $arg1"
-        echo "Usage: cd_work [clint|medewsa|carmine|nuria]"
+        show_help
     fi
 fi

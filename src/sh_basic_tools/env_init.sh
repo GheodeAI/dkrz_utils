@@ -8,5 +8,5 @@ export XLA_FLAGS=--xla_gpu_cuda_data_dir=/sw/spack-levante/nvhpc-24.7-py26uc/Lin
 export TF_FORCE_GPU_ALLOW_GROWTH=true
 module load texlive/live2021-gcc-11.2.0
 source activate
-conda activate ENV
-cd /work/{PROJ}/{USER}/
+conda activate ${ENV1}
+cd /work/${PATHPROJ}/${USER}/

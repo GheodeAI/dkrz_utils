@@ -10,7 +10,7 @@ show_help() {
     echo
     echo "Arguments:"
     echo "  PORT            Port number to run Jupyter-Lab (mandatory)"
-    echo "  PATH_ARG        Directory to change to (clint, medewsa, carmine, here) (default: clint)"
+    echo "  PATH_ARG        Directory to change to (${NAMEPROJ1}, ${NAMEPROJ2}, ${NAMEPROJ3}, here) (default: ${NAMEPROJ1})"
 }
 
 # Check for help option in any argument
@@ -27,20 +27,20 @@ if [ -z "$1" ]; then
     show_help
 else
     PORT=$1
-    # Set PATH_ARG to the second argument if provided, otherwise default to "clint"
+    # Set PATH_ARG to the second argument if provided, otherwise default to ${NAMEPROJ1}
     if [ -n "$2" ]; then
         PATH_ARG="$2"
     else
-        PATH_ARG="clint"
+        PATH_ARG=${1:-"${NAMEPROJ1}"}
     fi
 
     # Determine directory based on PATH_ARG
-    if [[ "$PATH_ARG" == "clint" ]]; then
-        CD_PATH="/work/{PROJ1}/{USER}/"
-    elif [[ "$PATH_ARG" == "medewsa" ]]; then
-        CD_PATH="/work/{PROJ2}/{USER}/"
-    elif [[ "$PATH_ARG" == "carmine" ]]; then
-        CD_PATH="/work/{PROJ3}/{USER}/"
+    if [[ "$PATH_ARG" == "${NAMEPROJ1}" ]]; then
+        CD_PATH="/work/${PATHPROJ1}/${USER}/"
+    elif [[ "$PATH_ARG" == "${NAMEPROJ2}" ]]; then
+        CD_PATH="/work/${PATHPROJ2}/${USER}/"
+    elif [[ "$PATH_ARG" == "${NAMEPROJ3}" ]]; then
+        CD_PATH="/work/${PATHPROJ3}/${USER}/"
     elif [[ "$PATH_ARG" == "here" ]]; then
         CD_PATH="."
     else
@@ -57,7 +57,7 @@ else
         echo "Activating conda..."
         source activate
         conda activate
-        conda activate flow
+        conda activate ${ENV1}
 
         echo "Changing path to $CD_PATH..."
         cd "$CD_PATH" || { echo "Failed to change directory to $CD_PATH"; }
