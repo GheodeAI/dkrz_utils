@@ -96,9 +96,12 @@ def merge_var(
                 ]
                 d_i = d_i.assign_coords(time=new_times)
                 if isinstance(area, str):
-                    area_list = np.array(area.split(',')).astype(int)
-                    d_i = d_i.sel(lat=slice(area_list[2],area_list[0]), lon=slice(area_list[1],area_list[3]))
-                data = xr.concat([data, d_i], dim='time')
+                    area_list = np.array(area.split(",")).astype(int)
+                    d_i = d_i.sel(
+                        lat=slice(area_list[2], area_list[0]),
+                        lon=slice(area_list[1], area_list[3]),
+                    )
+                data = xr.concat([data, d_i], dim="time")
                 d_i.close()
         # data.to_netcdf(f'{out_path}data_{area if area else "glob"}_1D_{short_name[idx]}.nc'.replace(",", "").replace(" ", ""))
         data = data.sortby(data.time)
