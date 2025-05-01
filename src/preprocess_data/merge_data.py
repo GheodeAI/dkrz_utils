@@ -3,16 +3,24 @@ import xarray as xr
 import numpy as np
 from tqdm import tqdm
 import warnings
+
 warnings.filterwarnings("ignore", message=r"Passing", category=FutureWarning)
 import glob
 import argparse
 from typing import Union
 import pandas as pd
 
-def merge_var(list_var: list[str], short_name: list[str], local_path: str, out_path: str, area: Union[bool, str]):
+
+def merge_var(
+    list_var: list[str],
+    short_name: list[str],
+    local_path: str,
+    out_path: str,
+    area: Union[bool, str],
+):
     """
     merge_var
-    
+
     Merge multiple NetCDF files for each variable in `list_var` into a single NetCDF file.
 
     This function processes a list of variables (`list_var`), finds all corresponding NetCDF files
@@ -34,7 +42,7 @@ def merge_var(list_var: list[str], short_name: list[str], local_path: str, out_p
         Path to the directory where the output NetCDF files will be saved.
     area : bool or str
         Default False. If specified an area, that whould be the region selected on the Xarray. Sould
-        follow the order: North, West, South, East. 
+        follow the order: North, West, South, East.
 
     Returns
     -------
@@ -54,40 +62,55 @@ def merge_var(list_var: list[str], short_name: list[str], local_path: str, out_p
     # output files: './features/data_glob_1D_t2m.nc' and './features/data_glob_1D_dp.nc'.
     """
     for idx, var in enumerate(tqdm(list_var, desc="Processing variables")):
-        files = np.array(sorted(glob.glob(f'{local_path}*{var}*.nc')))
-        print(f'\nfiles:\n {files}')
-        data = xr.open_dataset(files[0], engine='netcdf4')
-        #data = data.drop_vars('depth_bnds')
+        files = np.array(sorted(glob.glob(f"{local_path}*{var}*.nc")))
+        print(f"\nfiles:\n {files}")
+        data = xr.open_dataset(files[0], engine="netcdf4")
+        # data = data.drop_vars('depth_bnds')
         data = data.sortby(data.lat)
         data = data.sortby(data.lon)
-        new_times = [t.replace(hour=int(files[0][-5:-3]), minute=0, second=0) for t in pd.to_datetime(data.time.values)]
+        new_times = [
+            t.replace(hour=int(files[0][-5:-3]), minute=0, second=0)
+            for t in pd.to_datetime(data.time.values)
+        ]
         data = data.assign_coords(time=new_times)
         if area:
             # North, West, South, East.
-            area_list = np.array(area.split(',')).astype(int)
-            data = data.sel(lat=slice(area_list[2],area_list[0]), lon=slice(area_list[1],area_list[3]))
+            area_list = np.array(area.split(",")).astype(int)
+            data = data.sel(
+                lat=slice(area_list[2], area_list[0]),
+                lon=slice(area_list[1], area_list[3]),
+            )
         for file in tqdm(files[1:], desc=f"Merging files for {var}", leave=False):
-            #print(f'Loading: {file}')
+            # print(f'Loading: {file}')
             try:
-                d_i = xr.open_dataset(file, engine='netcdf4')
+                d_i = xr.open_dataset(file, engine="netcdf4")
             except Exception as ex:
                 print(f"Exception loading file {file} with:\n{ex}")
-            #d_i = d_i.drop_vars('depth_bnds')
+            # d_i = d_i.drop_vars('depth_bnds')
             else:
                 d_i = d_i.sortby(d_i.lat)
                 d_i = d_i.sortby(d_i.lon)
-                new_times = [t.replace(hour=int(file[-5:-3]), minute=0, second=0) for t in pd.to_datetime(d_i.time.values)]
+                new_times = [
+                    t.replace(hour=int(file[-5:-3]), minute=0, second=0)
+                    for t in pd.to_datetime(d_i.time.values)
+                ]
                 d_i = d_i.assign_coords(time=new_times)
                 if area:
-                    area_list = np.array(area.split(',')).astype(int)
-                    d_i = d_i.sel(lat=slice(area_list[2],area_list[0]), lon=slice(area_list[1],area_list[3]))
-                data = xr.concat([data, d_i], dim='time')
+                    area_list = np.array(area.split(",")).astype(int)
+                    d_i = d_i.sel(
+                        lat=slice(area_list[2], area_list[0]),
+                        lon=slice(area_list[1], area_list[3]),
+                    )
+                data = xr.concat([data, d_i], dim="time")
                 d_i.close()
-        #data.to_netcdf(f'{out_path}data_{area if area else "glob"}_1D_{short_name[idx]}.nc'.replace(",", "").replace(" ", ""))
+        # data.to_netcdf(f'{out_path}data_{area if area else "glob"}_1D_{short_name[idx]}.nc'.replace(",", "").replace(" ", ""))
         data = data.sortby(data.time)
-        data.to_netcdf(f'{out_path}{short_name[idx]}_1993-2016_.nc'.replace(",", "").replace(" ", ""))
+        data.to_netcdf(
+            f"{out_path}{short_name[idx]}_1993-2016_.nc".replace(",", "").replace(
+                " ", ""
+            )
+        )
     return
-
 
 
 # data = xr.open_dataset(files_pred[0])#.drop_dims('plev')
@@ -105,15 +128,40 @@ def merge_var(list_var: list[str], short_name: list[str], local_path: str, out_p
 def main():
     # Parser initialization
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--var", dest='var', help="Specify which variable to merge. Could be a single value or a comma-separated list.")
-    parser.add_argument("-sn", "--short_name", dest='short_name', help="Specify which is the short name to save the variable. Could be a single value or a comma-separated list.")
-    parser.add_argument("-p", "--path", dest='local_path', help="Local path to the directory where the variable is located.")
-    parser.add_argument("-o", "--outpath", dest='out_path', help="Path to the output directory where to save the result.")
-    parser.add_argument("-a", "--area", dest='area', help='Sub-region of interest. A str list in order: North, West, South, East.')
+    parser.add_argument(
+        "-v",
+        "--var",
+        dest="var",
+        help="Specify which variable to merge. Could be a single value or a comma-separated list.",
+    )
+    parser.add_argument(
+        "-sn",
+        "--short_name",
+        dest="short_name",
+        help="Specify which is the short name to save the variable. Could be a single value or a comma-separated list.",
+    )
+    parser.add_argument(
+        "-p",
+        "--path",
+        dest="local_path",
+        help="Local path to the directory where the variable is located.",
+    )
+    parser.add_argument(
+        "-o",
+        "--outpath",
+        dest="out_path",
+        help="Path to the output directory where to save the result.",
+    )
+    parser.add_argument(
+        "-a",
+        "--area",
+        dest="area",
+        help="Sub-region of interest. A str list in order: North, West, South, East.",
+    )
     args = parser.parse_args()
-    
+
     # Default values
-    var = '168'
+    var = "168"
     short_name = ["dp"]
     local_path = "./raw/"
     out_path = "./features/"
@@ -121,30 +169,35 @@ def main():
 
     # Override defaults if arguments are provided
     if args.var is not None:
-        var = args.var.split(',') if ',' in args.var else [args.var]  # Handle single value or list
+        var = (
+            args.var.split(",") if "," in args.var else [args.var]
+        )  # Handle single value or list
     if args.short_name is not None:
-        short_name = args.short_name.split(',') if ',' in args.short_name else [args.short_name]  # Handle single value or list
+        short_name = (
+            args.short_name.split(",") if "," in args.short_name else [args.short_name]
+        )  # Handle single value or list
     if args.local_path is not None:
         local_path = args.local_path
     if args.out_path is not None:
         out_path = args.out_path
     if args.area is not None:
         area = args.area
-    for i in range(1,26):
-        print(f'\nRunning for ens {i:02d}\n')
+    for i in range(1, 26):
+        print(f"\nRunning for ens {i:02d}\n")
         short_name_i = [str(short_name[0]).replace("_01", f"_{i:02d}")]
         local_path_i = local_path.replace("_01", f"_{i:02d}")
         out_path_i = out_path.replace("_01", f"_{i:02d}")
-        print(f'\nShort name {short_name}')
-        print(f'\nLocal path {local_path}')
-        print(f'\nOut path {out_path}\n')
-        print(f'\nShort name i {short_name_i}')
-        print(f'\nLocal path i {local_path_i}')
-        print(f'\nOut path i {out_path_i}\n')
+        print(f"\nShort name {short_name}")
+        print(f"\nLocal path {local_path}")
+        print(f"\nOut path {out_path}\n")
+        print(f"\nShort name i {short_name_i}")
+        print(f"\nLocal path i {local_path_i}")
+        print(f"\nOut path i {out_path_i}\n")
         merge_var(var, short_name_i, local_path_i, out_path_i, area)
     # If no need for repet ir for several experiments, then you could
     # remode the for-loop and use instead:
     # merge_var(var, short_name, local_path, out_path, area)
+
 
 if __name__ == "__main__":
     main()
