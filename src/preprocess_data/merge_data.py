@@ -141,8 +141,10 @@ def main():
         print(f'\nShort name i {short_name_i}')
         print(f'\nLocal path i {local_path_i}')
         print(f'\nOut path i {out_path_i}\n')
-        #merge_var(var, short_name, local_path, out_path, area)
         merge_var(var, short_name_i, local_path_i, out_path_i, area)
+    # If no need for repet ir for several experiments, then you could
+    # remode the for-loop and use instead:
+    # merge_var(var, short_name, local_path, out_path, area)
 
 if __name__ == "__main__":
     main()
