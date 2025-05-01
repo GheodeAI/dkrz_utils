@@ -62,7 +62,7 @@ def merge_var(list_var: list[str], short_name: list[str], local_path: str, out_p
         data = data.sortby(data.lon)
         new_times = [t.replace(hour=int(files[0][-5:-3]), minute=0, second=0) for t in pd.to_datetime(data.time.values)]
         data = data.assign_coords(time=new_times)
-        if area:
+        if isinstance(area, str):
             # North, West, South, East.
             area_list = np.array(area.split(',')).astype(int)
             data = data.sel(lat=slice(area_list[2],area_list[0]), lon=slice(area_list[1],area_list[3]))
@@ -78,7 +78,7 @@ def merge_var(list_var: list[str], short_name: list[str], local_path: str, out_p
                 d_i = d_i.sortby(d_i.lon)
                 new_times = [t.replace(hour=int(file[-5:-3]), minute=0, second=0) for t in pd.to_datetime(d_i.time.values)]
                 d_i = d_i.assign_coords(time=new_times)
-                if area:
+                if isinstance(area, str):
                     area_list = np.array(area.split(',')).astype(int)
                     d_i = d_i.sel(lat=slice(area_list[2],area_list[0]), lon=slice(area_list[1],area_list[3]))
                 data = xr.concat([data, d_i], dim='time')
