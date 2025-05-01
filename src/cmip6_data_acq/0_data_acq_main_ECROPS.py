@@ -28,7 +28,7 @@ variables_cmip = ['tdps', 'ua', 'va', 'tasmax', 'lai']
 # variables_era5_daily_monthly = ['tasmax', 'tasmin', 'tas', 'pr', 'rsds', 'tdps', 'sfcwind', 'hurs']
 variables_era5_daily_monthly = ['tdps', 'ua', 'va', 'tasmax', 'lai']
 # variables_era5_hourly = ['uas', 'vas']
-variables_era5_hourly = []
+variables_era5_hourly: list[str] = []
 
 # variables_era5_hourly = ['uas', 'vas', 'rsds', 'tdps']
 # 10m wind speed vas and uas are calculated with ECROPS function in wofost_util/util.py wind10to2(wind10) function
