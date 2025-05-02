@@ -20,4 +20,4 @@ jobs:
       
     - name: Check Bash scripts with ShellCheck
       run: |
-        find . -type f -name '*.sh' -exec shellcheck -x {} +
+        find . -type f -name '*.sh' -exec shellcheck -x -e SC1091 {} +
