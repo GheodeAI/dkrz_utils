@@ -1,0 +1,2 @@
+# .shellcheckrc
+exclude=SC1091
