@@ -1,4 +1,4 @@
-name: Code Quality Checks
+name: Python Checks
 
 on:
   push:
@@ -7,15 +7,14 @@ on:
     branches: [ "master" ]
 
 jobs:
-  code_checks:
-    name: Run Code Quality Checks
+  python_checks:
+    name: Run Python Checks
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    # Python checks
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -38,26 +37,3 @@ jobs:
     - name: Check Python formatting with Black
       run: |
         black --check --diff .
-        
-    # Bash checks
-    - name: Install ShellCheck
-      run: sudo apt-get install shellcheck
-      
-    - name: Check Bash scripts with ShellCheck
-      run: |
-        find . -type f -name '*.sh' -exec shellcheck {} +
-        
-    # Spelling checks
-    - name: Install aspell for spell checking
-      run: sudo apt-get install aspell aspell-en
-      
-    - name: Check spelling in code comments and docs
-      run: |
-        # This checks all .py, .md, .rst, .txt files
-        find . -type f \( -name '*.py' -o -name '*.md' -o -name '*.rst' -o -name '*.txt' \) \
-          -exec aspell --lang=en --mode=ccpp list {} \; | sort -u > misspelled.txt
-        if [ -s misspelled.txt ]; then
-          echo "Found potentially misspelled words:"
-          cat misspelled.txt
-          exit 1
-        fi

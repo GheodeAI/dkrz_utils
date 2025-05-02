@@ -1,0 +1,30 @@
+name: Spelling Checks
+
+on:
+  push:
+    branches: [ "master", "release/**" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  spelling_checks:
+    name: Run Spelling Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Install aspell for spell checking
+      run: sudo apt-get install aspell aspell-en
+      
+    - name: Check spelling in code comments and docs
+      run: |
+        # This checks all .py, .md, .rst, .txt files
+        find . -type f \( -name '*.py' -o -name '*.md' -o -name '*.rst' -o -name '*.txt' \) \
+          -exec aspell --lang=en --mode=ccpp list {} \; | sort -u > misspelled.txt
+        if [ -s misspelled.txt ]; then
+          echo "Found potentially misspelled words:"
+          cat misspelled.txt
+          exit 1
+        fi
