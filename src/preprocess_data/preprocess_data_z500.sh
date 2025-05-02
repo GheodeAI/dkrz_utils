@@ -9,7 +9,7 @@ show_help() {
     echo "Usage: $0 <path-to-folder> <output-dir> [-r <regex>]"
     echo ""
     echo "   You need an out.grid to run this code. That is, the"
-$arg2${f:32:end}    echo "   grid configuration you what as output."
+"$arg2""${f:32:end}"    echo "   grid configuration you what as output."
     echo ""
     echo "Arguments:"
     echo "  path-to-folder    Path to the folder where the original data is"
@@ -65,11 +65,11 @@ fi
 arg1=${positional_args[0]}
 arg2=${positional_args[1]}
 
-FILES=`find $arg1 -type f -regextype posix-extended -regex $reg_arg`
+FILES=$(find "$arg1" -type f -regextype posix-extended -regex "$reg_arg")
 
 for f in $FILES
 do
-  cdo -sellevel,50000 $f "$arg2${f:32}"
+  cdo -sellevel,50000 "$f" "$arg2${f:32}"
   cdo -P 8 remapcon,n512 -setgridtype,regular "$arg2${f:32}" "$arg2${f:32:-4}_gg.grb"
   rm "$arg2${f:32}"
   cdo remapbil,out.grid "$arg2${f:32:-4}_gg.grb" "$arg2${f:32:-4}_g0.25.grb"

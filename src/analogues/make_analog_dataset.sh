@@ -11,5 +11,5 @@
 
 module load python3
 source activate
-conda activate ${ENV2}
+conda activate "${ENV2}"
 python make_analog_dataset.py --csv_path "anal_dict/post_processed_analogues_1993-2016.csv" --variable gz300 --input_dir "./data/ecmwf/" --output_path "./data/analogues/"

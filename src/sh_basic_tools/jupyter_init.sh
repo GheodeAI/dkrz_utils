@@ -57,12 +57,12 @@ else
         echo "Activating conda..."
         source activate
         conda activate
-        conda activate ${ENV1}
+        conda activate "${ENV1}"
 
         echo "Changing path to $CD_PATH..."
         cd "$CD_PATH" || { echo "Failed to change directory to $CD_PATH"; }
 
         echo "And there it goes the Jupyter..."
-        jupyter-lab --no-browser --port=$PORT
+        jupyter-lab --no-browser --port="$PORT"
     fi
 fi
