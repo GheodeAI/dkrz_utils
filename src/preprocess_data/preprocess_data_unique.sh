@@ -9,7 +9,7 @@ show_help() {
     echo "Usage: $0 <path-to-folder> <output-dir> [-r <regex>]"
     echo ""
     echo "   You need an out.grid to run this code. That is, the"
-$arg2${f:32:end}    echo "   grid configuration you what as output."
+"$arg2""${f:32:end}"    echo "   grid configuration you what as output."
     echo ""
     echo "Arguments:"
     echo "  path-to-folder    Path to the folder where the original data is"
@@ -68,8 +68,8 @@ arg2=${positional_args[1]}
 substring="${arg1: -4:3}"
 rex1=".*${substring}_g0.25.nc"
 
-FILES=`find "$arg1" -type f -regextype posix-extended -regex "$reg_arg"`
-FILES2=`find "$arg2" -type f -regextype posix-extended -regex "$rex1"`
+FILES=$(find "$arg1" -type f -regextype posix-extended -regex "$reg_arg")
+FILES2=$(find "$arg2" -type f -regextype posix-extended -regex "$rex1")
 
 echo "FILES:"
 printf '%s\n' "${FILES[@]}"
@@ -122,7 +122,7 @@ for f in "${filtered_files[@]}"
 do
   echo "start loop"
   printf '%s\n' "$f"
-  cdo -P 8 remapcon,n512 -setgridtype,regular $f "$arg2${f:32:-4}_gg.grb"
+  cdo -P 8 remapcon,n512 -setgridtype,regular "$f" "$arg2${f:32:-4}_gg.grb"
   cdo remapbil,out.grid "$arg2${f:32:-4}_gg.grb" "$arg2${f:32:-4}_g0.25.grb"
   rm "$arg2${f:32:-4}_gg.grb"
   cdo -f nc copy "$arg2${f:32:-4}_g0.25.grb" "$arg2${f:32:-4}_g0.25.nc"

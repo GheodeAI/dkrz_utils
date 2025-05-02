@@ -11,5 +11,5 @@
 
 module load python3
 source activate
-conda activate ${ENV2}
+conda activate "${ENV2}"
 python merge_data.py -v "gz300/" -sn "ecmwf_01_gz300" -p "../../datasets/ecmwf/ens_01/" -o "data/ecmwf/ens_01/gz300/"

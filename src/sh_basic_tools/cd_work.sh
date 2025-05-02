@@ -31,13 +31,13 @@ else
 
     # Change directory based on the argument
     if [ "$arg1" == "${NAMEPROJ1}" ]; then
-        cd "/work/${PATHPROJ1}/${USER}/"
+        cd "/work/${PATHPROJ1}/${USER}/" || exit
     elif [ "$arg1" == "${NAMEPROJ2}" ]; then
-        cd "/work/${PATHPROJ2}/${USER}/"
+        cd "/work/${PATHPROJ2}/${USER}/" || exit
     elif [ "$arg1" == "${NAMEPROJ3}" ]; then
-        cd "/work/${PATHPROJ3}/${USER}/"
+        cd "/work/${PATHPROJ3}/${USER}/" || exit
     elif [ "$arg1" == "${NAMEPROJ4}" ]; then
-        cd "/work/${PATHPROJ4}/"
+        cd "/work/${PATHPROJ4}/" || exit
     else
         echo "Invalid argument: $arg1"
         show_help
