@@ -3,6 +3,7 @@ import shutil
 import os
 import glob
 import sys
+import argparse
 
 def copy_files_from_csv(csv_file_path, destination_folder, variable, experiment):
     """
@@ -30,8 +31,13 @@ def copy_files_from_csv(csv_file_path, destination_folder, variable, experiment)
                 print(f"Could not extract ensemble from: {original_file_path}")
                 continue
             
-            # Build destination path: destination_folder/variable/experiment/ensemble/
-            dest_dir = os.path.join(destination_folder, variable, experiment, ensemble)
+            # Build destination path based on experiment type
+            if experiment.startswith('ssp'):
+                # Projections: destination_folder/projections/<experiment>/<variable>/<ensemble>/
+                dest_dir = os.path.join(destination_folder, variable, 'projections', experiment, ensemble)
+            else:
+                # Historical/Past2K: destination_folder/<variable>/<experiment>/<ensemble>/
+                dest_dir = os.path.join(destination_folder, variable, experiment, ensemble)
             os.makedirs(dest_dir, exist_ok=True)
             
             # Copy file to destination
@@ -60,20 +66,35 @@ def main():
     parser.add_argument('-d', '--dest', 
                         default='./data_raw/',
                         help='Destination base folder (default: ./data_raw/)')
+    parser.add_argument('-p', '--pattern', 
+                        default='*.csv',
+                        help='Glob pattern to select specific CSV files (default: *.csv)')
     
     args = parser.parse_args()
     
     # Use the paths from arguments (or defaults if not provided)
     data_acq_folder = args.source
     destination_folder = args.dest
+    file_pattern = args.pattern
+
+    # Ensure paths end with slashes for consistency
+    if not data_acq_folder.endswith(os.path.sep):
+        data_acq_folder += os.path.sep
+    if not destination_folder.endswith(os.path.sep):
+        destination_folder += os.path.sep
     
-    # Find all CSV files
-    csv_files = sorted(glob.glob(os.path.join(data_acq_folder, "*.csv")))
+    # Find matching CSV files using pattern
+    search_pattern = os.path.join(data_acq_folder, file_pattern)
+    csv_files = sorted(glob.glob(search_pattern))
+    
+    print(f"Source folder: {data_acq_folder}")
+    print(f"Destination folder: {destination_folder}")
+    print(f"Search pattern: {file_pattern}")
     print(f"Found CSV files: {csv_files}")
     sys.stdout.flush()
 
     if not csv_files:
-        print(f"No CSV files found in: {data_acq_folder}")
+        print(f"No CSV files found matching pattern: '{file_pattern}' in {data_acq_folder}")
         sys.stdout.flush()
         return
 
@@ -89,6 +110,9 @@ def main():
         # Determine experiment and variable
         if parts[0] == 'past2k':
             experiment = 'past2k'
+            variable = parts[1]
+        elif parts[0].startswith('ssp'):
+            experiment = parts[0]
             variable = parts[1]
         else:
             experiment = 'historical'
