@@ -50,9 +50,22 @@ def copy_files_from_csv(csv_file_path, destination_folder, variable, experiment)
                 sys.stdout.flush()
 
 def main():
-    # Define paths
-    data_acq_folder = "./data_acq/" 
-    destination_folder = './data_raw/'  # Base destination
+    # Set up command line arguments
+    parser = argparse.ArgumentParser(
+        description='Copy CMIP6 files to structured directories based on CSV lists.'
+    )
+    parser.add_argument('-s', '--source', 
+                        default='./data_acq/',
+                        help='Folder containing CSV files (default: ./data_acq/)')
+    parser.add_argument('-d', '--dest', 
+                        default='./data_raw/',
+                        help='Destination base folder (default: ./data_raw/)')
+    
+    args = parser.parse_args()
+    
+    # Use the paths from arguments (or defaults if not provided)
+    data_acq_folder = args.source
+    destination_folder = args.dest
     
     # Find all CSV files
     csv_files = sorted(glob.glob(os.path.join(data_acq_folder, "*.csv")))
