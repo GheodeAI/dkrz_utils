@@ -10,7 +10,7 @@ for notes on deploying the project on a live system.
 
 ### Prerequisites
 
-- Need to have acces to Levante.
+- Need to have access to Levante.
 - Need your own [conda environment](https://docs.dkrz.de/doc/levante/code-development/python.html#set-up-conda-for-individual-environments).
 
 ### Installing
