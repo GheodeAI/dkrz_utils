@@ -28,7 +28,8 @@ def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, va
     freq_longname_map = {"mon": "monthly", "day": "daily", "hour": "hourly"}
 
     for project in projects:
-        match project.lower():
+        project = project.lower()
+        match project:
             case "cmip6":
                 for model in models:
                     model = model.lower()
@@ -47,23 +48,24 @@ def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, va
 
             case "reanalysis":
                 for freq in frequency:
-                    freq = freq.lower()
-                    freq_longname = freq_longname_map[freq]
+                    for exp_reanalysis_i in exp_reanalysis:
+                        freq = freq.lower()
+                        freq_longname = freq_longname_map[freq]
 
-                    var_set = None
-                    match freq:
-                        case "mon" | "day":
-                            var_set = variables_era5_daily_monthly
-                        case "hour":
-                            var_set = variables_era5_hourly
-                        case _:
-                            raise ValueError("Incorrect frequency, try 'mon', 'day' or 'hour'.")
+                        var_set = None
+                        match freq:
+                            case "mon" | "day":
+                                var_set = variables_era5_daily_monthly
+                            case "hour":
+                                var_set = variables_era5_hourly
+                            case _:
+                                raise ValueError("Incorrect frequency, try 'mon', 'day' or 'hour'.")
 
-                    for var in var_set:
-                        var = var.lower()
-                        logging.info(f"\n \nPROJECT: {project}, EXPERIMENT: {exp_reanalysis}, VARIABLE: {var}, FREQUENCY: {freq}\n")
-                        data_acq_freva_search_ECROPS.freva_search_reanalysis(project, exp_reanalysis, var, freq, homevardir)
-                        logging.info(f"\n\n **** Finished with ERA5 {freq_longname} data files  **** \n \n")
+                        for var in var_set:
+                            var = var.lower()
+                            logging.info(f"\n \nPROJECT: {project}, EXPERIMENT: {exp_reanalysis_i}, VARIABLE: {var}, FREQUENCY: {freq}\n")
+                            data_acq_freva_search_ECROPS.freva_search_reanalysis(project, exp_reanalysis_i, var, freq, homevardir)
+                            logging.info(f"\n\n **** Finished with ERA5 {freq_longname} data files  **** \n \n")
 
             case _:
                 ValueError(f"Project {project} not recognized, try 'cmip6' or 'reanalysis'")
@@ -87,7 +89,7 @@ def main():
 
     # frequency = ['hour', 'day', 'mon']
     # exp_cmip6 = ['ssp370', 'ssp585', 'historical', 'past2k]
-    # exp_reanalysis = "era5"
+    # exp_reanalysis = ["era5"]
     # homevardir = "/work/bb1478/b382610/wildfires/data/find_vars_cmip6/data_acq/"
 
     parser = argparse.ArgumentParser(prog="Train concrete with prev. classification")
