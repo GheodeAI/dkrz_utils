@@ -61,10 +61,10 @@ def freva_search_ssp(project, model, var, freq, experiment, homevardir):
 
     ## Write everything to csv files
     ssp_csv_filename = f"{model}__{project}_{experiment}_{var}_{freq}.csv"
-    ssp_files_array.tofile(os.path.join(os.sep, homevardir, ssp_csv_filename), sep="\n")
+    ssp_files_array.tofile(os.path.join(homevardir, ssp_csv_filename), sep="\n")
     historical_csv_filename = f"{model}__{project}_{experiment}_{var}_{freq}_historical.csv"
 
-    np_historical_files_array.tofile(os.path.join(os.sep, homevardir, historical_csv_filename), sep="\n")
+    np_historical_files_array.tofile(os.path.join(homevardir, historical_csv_filename), sep="\n")
 
 
 def freva_search_historical(project, model, var, freq, homevardir):
@@ -108,7 +108,7 @@ def freva_search_historical(project, model, var, freq, homevardir):
     ## Write everything to csv files
     all_historical_csv = f"{model}__{project}_{var}_{freq}_allhistorical.csv"
 
-    historical_files_array.tofile(os.path.join(os.sep, homevardir, all_historical_csv), sep="\n")
+    historical_files_array.tofile(os.path.join(homevardir, all_historical_csv), sep="\n")
 
 
 def freva_search_reanalysis(project, experiment, var, freq, homevardir):  # , geopoten_value):
@@ -147,7 +147,7 @@ def freva_search_reanalysis(project, experiment, var, freq, homevardir):  # , ge
     ## Write everything to csv files
     all_reanalysis_csv_filename = f"{experiment}__{project}_{freq}_{var}.csv"
 
-    reanalysis_files_array.tofile(os.path.join(os.sep, homevardir, all_reanalysis_csv_filename), sep="\n")
+    reanalysis_files_array.tofile(os.path.join(homevardir, all_reanalysis_csv_filename), sep="\n")
 
 
 def get_files_from_unique_ensembles(project, model, var, freq, experiment, unique_ensemble_list):
