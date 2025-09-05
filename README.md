@@ -35,6 +35,8 @@ of conduct, and the process for submitting pull requests to us.
 
   - **Cosmin M. Marina** - *Provided Initial Scripts* -
     [cosminmarina](https://github.com/cosminmarina)
+  - **Eugenio Lorente-Ramos** - *Enhanced data aquisition scripts* -
+    [eugenioLR](https://github.com/eugenioLR)
 
 See also the list of
 [contributors](https://github.com/cosminmarina/dkrz_utils/contributors)
