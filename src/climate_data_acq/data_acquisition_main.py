@@ -72,27 +72,7 @@ def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, va
 
 
 def main():
-    # projects = ['cmip6', 'reanalysis']
-    # models = ['cesm2',
-    #           'cnrm-cm6-1-HR',
-    #           'gfdl-esm4',
-    #           'ec-earth3',
-    #           'mpi-esm1-2-hr',
-    #           'mpi-esm1-2-lr',
-    #           'noresm2-mm',
-    #           'hadgem3-gc31-mm']
-
-    # variables_cmip = ["tdps", "ua", "va", "tasmax", "lai"]
-
-    # variables_era5_daily_monthly = ['tasmax', 'tasmin', 'tas', 'pr', 'rsds', 'tdps', 'sfcwind', 'hurs']
-    # variables_era5_hourly = ['uas', 'vas', 'rsds', 'tdps']
-
-    # frequency = ['hour', 'day', 'mon']
-    # exp_cmip6 = ['ssp370', 'ssp585', 'historical', 'past2k]
-    # exp_reanalysis = ["era5"]
-    # homevardir = "/work/bb1478/b382610/wildfires/data/find_vars_cmip6/data_acq/"
-
-    parser = argparse.ArgumentParser(prog="Train concrete with prev. classification")
+    parser = argparse.ArgumentParser(prog="DKRZ Data path downloader.")
     parser.add_argument("-p", "--projects", default="reanalysis")
     parser.add_argument("-m", "--models", default="")
     parser.add_argument("--cmip6_vars", default="")
@@ -101,9 +81,7 @@ def main():
     parser.add_argument("--exp_cmip", default="")
     parser.add_argument("--exp_reanalysis", default="era5")
     parser.add_argument("-f", "--frequency", default="")
-    # parser.add_argument("-V", "--verify", store_action=True)
-    parser.add_argument("-d", "--dir", type=str, required=True)
-
+    parser.add_argument("-d", "--dir", default="./data_acq")
     args = parser.parse_args()
 
     copy_data(

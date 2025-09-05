@@ -29,7 +29,8 @@ def copy_files_from_csv(csv_file_path, destination_folder, variable, experiment)
                 ensemble = path_components[exp_index + 1]  # Ensemble is next component
             except (ValueError, IndexError):
                 print(f"Could not extract ensemble from: {original_file_path}")
-                continue
+                ensemble = "ens0"
+                # continue
             
             # Build destination path based on experiment type
             if experiment.startswith('ssp'):
@@ -105,18 +106,24 @@ def main():
         
         # Extract variable and experiment from filename
         filename = os.path.basename(csv_file_path)
-        parts = filename.split('__cmip6_')[-1].split('_[')[0].split('_')
-        
-        # Determine experiment and variable
-        if parts[0] == 'past2k':
-            experiment = 'past2k'
-            variable = parts[1]
-        elif parts[0].startswith('ssp'):
+        if "cmip6" in filename:
+            parts = filename.split('__cmip6_')[-1].split('_[')[0].split('_')
+            
+            # Determine experiment and variable
+            match parts[0]:
+                case 'past2k':
+                    experiment = 'past2k'
+                    variable = parts[1]
+                case 'historical':
+                    experiment = 'historical'
+                    variable = parts[0]
+                case ['ssp', *_]:
+                    experiment = parts[0]
+                    variable = parts[1]
+        else:
+            parts = filename.split('__reanalisys_')[-1].split('_[')[0].split('_')
             experiment = parts[0]
             variable = parts[1]
-        else:
-            experiment = 'historical'
-            variable = parts[0]
         
         # Copy files with structured paths
         copy_files_from_csv(csv_file_path, destination_folder, variable, experiment)
