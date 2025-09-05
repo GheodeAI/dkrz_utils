@@ -10,6 +10,7 @@ import sys
 
 import data_acq_freva_search_ECROPS
 import os
+import argparse
 
 
 def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, variables_era5_hourly, frequency, exp_cmip, exp_reanalysis, homevardir):
