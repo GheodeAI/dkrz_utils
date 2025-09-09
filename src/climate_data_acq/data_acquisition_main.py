@@ -9,11 +9,12 @@ import logging
 import sys
 
 import data_acq_freva_search_ECROPS
-import os
 import argparse
 
 
-def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, variables_era5_hourly, frequency, exp_cmip6, exp_reanalysis, homevardir):
+def copy_data(
+    projects, models, variables_cmip, variables_era5_daily_monthly, variables_era5_hourly, frequency, exp_cmip6, exp_reanalysis, homevardir
+):
     # First initialize a logger instance
     logging.basicConfig(
         level=logging.INFO,
