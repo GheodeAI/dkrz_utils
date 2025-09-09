@@ -9,11 +9,12 @@ import logging
 import sys
 
 import data_acq_freva_search_ECROPS
-import os
 import argparse
 
 
-def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, variables_era5_hourly, frequency, exp_cmip, exp_reanalysis, homevardir):
+def copy_data(
+    projects, models, variables_cmip, variables_era5_daily_monthly, variables_era5_hourly, frequency, exp_cmip6, exp_reanalysis, homevardir
+):
     # First initialize a logger instance
     logging.basicConfig(
         level=logging.INFO,
@@ -33,18 +34,20 @@ def copy_data(projects, models, variables_cmip, variables_era5_daily_monthly, va
             case "cmip6":
                 for model in models:
                     model = model.lower()
-                    for exp in exp_cmip6:
-                        exp = exp.lower()
-                        for var in variables_cmip:
-                            var = var.lower()
-                            logging.info(f"\n \nMODEL: {model}, EXPERIMENT: {exp}, VARIABLE: {var}, FREQUENCY: {freq}\n")
+                    for freq in frequency:
+                        freq = freq.lower()
+                        for exp in exp_cmip6:
+                            exp = exp.lower()
+                            for var in variables_cmip:
+                                var = var.lower()
+                                logging.info(f"\n \nMODEL: {model}, EXPERIMENT: {exp}, VARIABLE: {var}, FREQUENCY: {freq}\n")
 
-                            if exp == "historical":
-                                data_acq_freva_search_ECROPS.freva_search_historical(project, model, var, frequency, homevardir)
-                                logging.info("\n\n **** Finished with Historical files **** \n\n")
-                            else:
-                                data_acq_freva_search_ECROPS.freva_search_ssp(project, model, var, frequency, exp, homevardir)
-                                logging.info("\n\n **** Finished with SSP files  **** \n \n")
+                                if exp == "historical":
+                                    data_acq_freva_search_ECROPS.freva_search_historical(project, model, var, frequency, homevardir)
+                                    logging.info("\n\n **** Finished with Historical files **** \n\n")
+                                else:
+                                    data_acq_freva_search_ECROPS.freva_search_ssp(project, model, var, frequency, exp, homevardir)
+                                    logging.info("\n\n **** Finished with SSP files  **** \n \n")
 
             case "reanalysis":
                 for freq in frequency:
