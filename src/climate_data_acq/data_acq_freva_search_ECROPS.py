@@ -126,13 +126,6 @@ def freva_search_reanalysis(project, experiment, var, freq, homevardir):  # , ge
     reanalysis_files = freva.databrowser(project=project, time_frequency=freq, variable=var, experiment=experiment)
 
     reanalysis_files_list = list(reanalysis_files)
-    #### FOR SOME REASON THE BELOW DOES NOT WORK, TO BE DELETED, HAS BEEN SUBSTITUTED IN data_prepr_timerange_targetvar_zg
-    # ## 2. Get the geopotential height files we need, in case the var has this attribute (not 999999)
-    # if geopoten_value != 999999:
-    #     for f in reanalysis_files_list:
-    #         if str(geopoten_value) not in f:
-    #             reanalysis_files_list.remove(f)
-
     reanalysis_files_array = np.sort(reanalysis_files_list)
 
     ## 3. Get all the unique ensemble ids for each var
