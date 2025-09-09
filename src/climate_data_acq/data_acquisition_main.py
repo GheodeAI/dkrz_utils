@@ -13,7 +13,15 @@ import argparse
 
 
 def copy_data(
-    projects, models, variables_cmip, variables_era5_daily_monthly, variables_era5_hourly, frequency, exp_cmip6, exp_reanalysis, homevardir
+    projects,
+    models,
+    variables_cmip,
+    variables_era5_daily_monthly,
+    variables_era5_hourly,
+    frequency,
+    exp_cmip6,
+    exp_reanalysis,
+    homevardir,
 ):
     # First initialize a logger instance
     logging.basicConfig(
@@ -40,14 +48,24 @@ def copy_data(
                             exp = exp.lower()
                             for var in variables_cmip:
                                 var = var.lower()
-                                logging.info(f"\n \nMODEL: {model}, EXPERIMENT: {exp}, VARIABLE: {var}, FREQUENCY: {freq}\n")
+                                logging.info(
+                                    f"\n \nMODEL: {model}, EXPERIMENT: {exp}, VARIABLE: {var}, FREQUENCY: {freq}\n"
+                                )
 
                                 if exp == "historical":
-                                    data_acq_freva_search_ECROPS.freva_search_historical(project, model, var, frequency, homevardir)
-                                    logging.info("\n\n **** Finished with Historical files **** \n\n")
+                                    data_acq_freva_search_ECROPS.freva_search_historical(
+                                        project, model, var, frequency, homevardir
+                                    )
+                                    logging.info(
+                                        "\n\n **** Finished with Historical files **** \n\n"
+                                    )
                                 else:
-                                    data_acq_freva_search_ECROPS.freva_search_ssp(project, model, var, frequency, exp, homevardir)
-                                    logging.info("\n\n **** Finished with SSP files  **** \n \n")
+                                    data_acq_freva_search_ECROPS.freva_search_ssp(
+                                        project, model, var, frequency, exp, homevardir
+                                    )
+                                    logging.info(
+                                        "\n\n **** Finished with SSP files  **** \n \n"
+                                    )
 
             case "reanalysis":
                 for freq in frequency:
@@ -62,16 +80,26 @@ def copy_data(
                             case "hour":
                                 var_set = variables_era5_hourly
                             case _:
-                                raise ValueError("Incorrect frequency, try 'mon', 'day' or 'hour'.")
+                                raise ValueError(
+                                    "Incorrect frequency, try 'mon', 'day' or 'hour'."
+                                )
 
                         for var in var_set:
                             var = var.lower()
-                            logging.info(f"\n \nPROJECT: {project}, EXPERIMENT: {exp_reanalysis_i}, VARIABLE: {var}, FREQUENCY: {freq}\n")
-                            data_acq_freva_search_ECROPS.freva_search_reanalysis(project, exp_reanalysis_i, var, freq, homevardir)
-                            logging.info(f"\n\n **** Finished with ERA5 {freq_longname} data files  **** \n \n")
+                            logging.info(
+                                f"\n \nPROJECT: {project}, EXPERIMENT: {exp_reanalysis_i}, VARIABLE: {var}, FREQUENCY: {freq}\n"
+                            )
+                            data_acq_freva_search_ECROPS.freva_search_reanalysis(
+                                project, exp_reanalysis_i, var, freq, homevardir
+                            )
+                            logging.info(
+                                f"\n\n **** Finished with ERA5 {freq_longname} data files  **** \n \n"
+                            )
 
             case _:
-                ValueError(f"Project {project} not recognized, try 'cmip6' or 'reanalysis'")
+                ValueError(
+                    f"Project {project} not recognized, try 'cmip6' or 'reanalysis'"
+                )
 
 
 def main():

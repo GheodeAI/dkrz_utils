@@ -37,24 +37,34 @@ def freva_search_ssp(project, model, var, freq, experiment, homevardir):
 
     ## iteratable freva generator object ssp_files can either be tranformed to a list or parsed,
     ## not both, it lives through one iteration it seems
-    ssp_files_list = list(ssp_files)  # make the freva generator object ssp_files a list for list functions e.g. len()
+    ssp_files_list = list(
+        ssp_files
+    )  # make the freva generator object ssp_files a list for list functions e.g. len()
     ssp_files_array = np.sort(ssp_files_list)
 
     ## 2. Get all the unique ensemble ids to be used in matching with all other ssp files
     all_ensembles = []
     for ssp_file in ssp_files_array:
         res = freva.facet_search(file=ssp_file, facet="ensemble")
-        all_ensembles.append(res.get("ensemble")[0])  # get the first (only) value of the dictionary <ensemble:value>
+        all_ensembles.append(
+            res.get("ensemble")[0]
+        )  # get the first (only) value of the dictionary <ensemble:value>
 
-    unique_ensembles = np.unique(all_ensembles)  # then filter out only the unique ensemble values
+    unique_ensembles = np.unique(
+        all_ensembles
+    )  # then filter out only the unique ensemble values
 
     logging.info(f"{experiment} for {var} unique ensemble ids = {unique_ensembles}")
 
     # Get the number of ssp files per unique ensemble id: Function is called only for logging the number of files
-    get_files_from_unique_ensembles(project, model, var, freq, experiment, unique_ensembles)
+    get_files_from_unique_ensembles(
+        project, model, var, freq, experiment, unique_ensembles
+    )
 
     ## 3. Get all the historical datasets we need by the ensemble id in unique_ensembles
-    historical_files_array = get_files_from_unique_ensembles(project, model, var, freq, "historical", unique_ensembles)
+    historical_files_array = get_files_from_unique_ensembles(
+        project, model, var, freq, "historical", unique_ensembles
+    )
 
     np_historical_files_array = np.sort(historical_files_array)
     ### logging.info(str(var) + " total HISTORICAL num of files = " + str(np_historical_files_array.size))
@@ -62,9 +72,13 @@ def freva_search_ssp(project, model, var, freq, experiment, homevardir):
     ## Write everything to csv files
     ssp_csv_filename = f"{model}__{project}_{experiment}_{var}_{freq}.csv"
     ssp_files_array.tofile(os.path.join(homevardir, ssp_csv_filename), sep="\n")
-    historical_csv_filename = f"{model}__{project}_{experiment}_{var}_{freq}_historical.csv"
+    historical_csv_filename = (
+        f"{model}__{project}_{experiment}_{var}_{freq}_historical.csv"
+    )
 
-    np_historical_files_array.tofile(os.path.join(homevardir, historical_csv_filename), sep="\n")
+    np_historical_files_array.tofile(
+        os.path.join(homevardir, historical_csv_filename), sep="\n"
+    )
 
 
 def freva_search_historical(project, model, var, freq, homevardir):
@@ -97,21 +111,31 @@ def freva_search_historical(project, model, var, freq, homevardir):
     all_ensembles = []
     for historical_file in historical_files_array:
         res = freva.facet_search(file=historical_file, facet="ensemble")
-        all_ensembles.append(res.get("ensemble")[0])  # get the first and only value of the dictionary <ensemble:value>
+        all_ensembles.append(
+            res.get("ensemble")[0]
+        )  # get the first and only value of the dictionary <ensemble:value>
 
-    unique_ensembles = np.unique(all_ensembles)  # then filter out only the unique ensemble values
+    unique_ensembles = np.unique(
+        all_ensembles
+    )  # then filter out only the unique ensemble values
     logging.info(f"Historical for {var} unique ensemble ids = {unique_ensembles}")
 
     # Get the number of historical files per unique ensemble id: Function is calles only for logging the number of files
-    get_files_from_unique_ensembles(project, model, var, freq, "historical", unique_ensembles)
+    get_files_from_unique_ensembles(
+        project, model, var, freq, "historical", unique_ensembles
+    )
 
     ## Write everything to csv files
     all_historical_csv = f"{model}__{project}_{var}_{freq}_allhistorical.csv"
 
-    historical_files_array.tofile(os.path.join(homevardir, all_historical_csv), sep="\n")
+    historical_files_array.tofile(
+        os.path.join(homevardir, all_historical_csv), sep="\n"
+    )
 
 
-def freva_search_reanalysis(project, experiment, var, freq, homevardir):  # , geopoten_value):
+def freva_search_reanalysis(
+    project, experiment, var, freq, homevardir
+):  # , geopoten_value):
     """
     Retreive from FREVA all reanalysis files such as ERA5 and write the list to csv,
     e.g. "era5__reanalysis_day_tas.csv"
@@ -123,7 +147,9 @@ def freva_search_reanalysis(project, experiment, var, freq, homevardir):  # , ge
     :return:
     """
     ## 1. Get all the reanalysis files with a variable
-    reanalysis_files = freva.databrowser(project=project, time_frequency=freq, variable=var, experiment=experiment)
+    reanalysis_files = freva.databrowser(
+        project=project, time_frequency=freq, variable=var, experiment=experiment
+    )
 
     reanalysis_files_list = list(reanalysis_files)
     reanalysis_files_array = np.sort(reanalysis_files_list)
@@ -132,18 +158,28 @@ def freva_search_reanalysis(project, experiment, var, freq, homevardir):  # , ge
     all_ensembles = []
     for reanalysis_file in reanalysis_files_array:
         res = freva.facet_search(file=reanalysis_file, facet="ensemble")
-        all_ensembles.append(res.get("ensemble")[0])  # get the first(and only) value of the dictionary <ensemble:value>
+        all_ensembles.append(
+            res.get("ensemble")[0]
+        )  # get the first(and only) value of the dictionary <ensemble:value>
 
-    unique_ensembles = np.unique(all_ensembles)  # then filter out only the unique ensemble values
-    logging.info(f"{experiment} reanalysis for {var} unique ensemble ids = {unique_ensembles}")
+    unique_ensembles = np.unique(
+        all_ensembles
+    )  # then filter out only the unique ensemble values
+    logging.info(
+        f"{experiment} reanalysis for {var} unique ensemble ids = {unique_ensembles}"
+    )
 
     ## Write everything to csv files
     all_reanalysis_csv_filename = f"{experiment}__{project}_{freq}_{var}.csv"
 
-    reanalysis_files_array.tofile(os.path.join(homevardir, all_reanalysis_csv_filename), sep="\n")
+    reanalysis_files_array.tofile(
+        os.path.join(homevardir, all_reanalysis_csv_filename), sep="\n"
+    )
 
 
-def get_files_from_unique_ensembles(project, model, var, freq, experiment, unique_ensemble_list):
+def get_files_from_unique_ensembles(
+    project, model, var, freq, experiment, unique_ensemble_list
+):
     """
     The inputs to this function are internal, although dictated by the data_acq_main.py . This function is called
     internally in order to retrieve from FREVA items using their ensemble id, used for corresponding ssp and historical
@@ -169,6 +205,8 @@ def get_files_from_unique_ensembles(project, model, var, freq, experiment, uniqu
         for file in files:
             files_array.append(file)
 
-        logging.info(f"{experiment} {var} files for ensemble {unique_ens} = {len(files)}")
+        logging.info(
+            f"{experiment} {var} files for ensemble {unique_ens} = {len(files)}"
+        )
 
     return files_array

@@ -35,10 +35,14 @@ def copy_files_from_csv(csv_file_path, destination_folder, variable, experiment)
             # Build destination path based on experiment type
             if experiment.startswith("ssp"):
                 # Projections: destination_folder/projections/<experiment>/<variable>/<ensemble>/
-                dest_dir = os.path.join(destination_folder, variable, "projections", experiment, ensemble)
+                dest_dir = os.path.join(
+                    destination_folder, variable, "projections", experiment, ensemble
+                )
             else:
                 # Historical/Past2K: destination_folder/<variable>/<experiment>/<ensemble>/
-                dest_dir = os.path.join(destination_folder, variable, experiment, ensemble)
+                dest_dir = os.path.join(
+                    destination_folder, variable, experiment, ensemble
+                )
             os.makedirs(dest_dir, exist_ok=True)
 
             # Copy file to destination
@@ -59,7 +63,9 @@ def copy_files_from_csv(csv_file_path, destination_folder, variable, experiment)
 
 def main():
     # Set up command line arguments
-    parser = argparse.ArgumentParser(description="Copy CMIP6 files to structured directories based on CSV lists.")
+    parser = argparse.ArgumentParser(
+        description="Copy CMIP6 files to structured directories based on CSV lists."
+    )
     parser.add_argument(
         "-s",
         "--source",
@@ -103,7 +109,9 @@ def main():
     sys.stdout.flush()
 
     if not csv_files:
-        print(f"No CSV files found matching pattern: '{file_pattern}' in {data_acq_folder}")
+        print(
+            f"No CSV files found matching pattern: '{file_pattern}' in {data_acq_folder}"
+        )
         sys.stdout.flush()
         return
 
