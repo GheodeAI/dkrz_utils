@@ -10,7 +10,7 @@ for notes on deploying the project on a live system.
 
 ### Prerequisites
 
-- Need to have acces to Levante.
+- Need to have access to Levante.
 - Need your own [conda environment](https://docs.dkrz.de/doc/levante/code-development/python.html#set-up-conda-for-individual-environments).
 
 ### Installing
@@ -35,6 +35,8 @@ of conduct, and the process for submitting pull requests to us.
 
   - **Cosmin M. Marina** - *Provided Initial Scripts* -
     [cosminmarina](https://github.com/cosminmarina)
+  - **Eugenio Lorente-Ramos** - *Enhanced data aquisition scripts* -
+    [eugenioLR](https://github.com/eugenioLR)
 
 See also the list of
 [contributors](https://github.com/cosminmarina/dkrz_utils/contributors)
