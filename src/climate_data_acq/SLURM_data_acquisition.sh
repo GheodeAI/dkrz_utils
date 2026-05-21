@@ -19,6 +19,6 @@ module load python3/2022.01-gcc-11.2.0
 module load clint
 module load xces
 
-python 0_data_acq_main_ECROPS.py
+python data_acquisition_main.py -p reanalysis --era5_vars_hour "10u,10v,msl,tp,q,2t" -f hour --exp_reanalysis ERA5 --dir ./data_acq
 
 
